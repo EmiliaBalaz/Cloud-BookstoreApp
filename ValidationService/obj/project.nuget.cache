@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "N4d+KzP/VJNP7PH5eSFa3wWkoMJAbcSG2pZXdVsLjTGa0Ojv4lxHhB8FWDTnKs3z+syMOpUR7JSvk7SdWUcJ9w==",
+  "success": true,
+  "projectFilePath": "D:\\Fakultet\\MASTER\\Cloud\\Projekat\\Zadatak\\ValidationService\\ValidationService.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric\\10.1.2493\\microsoft.servicefabric.10.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.data\\7.1.2493\\microsoft.servicefabric.data.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.data.extensions\\7.1.2493\\microsoft.servicefabric.data.extensions.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.data.interfaces\\7.1.2493\\microsoft.servicefabric.data.interfaces.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.diagnostics.internal\\7.1.2493\\microsoft.servicefabric.diagnostics.internal.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.fabrictransport.internal\\7.1.2493\\microsoft.servicefabric.fabrictransport.internal.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.services\\7.1.2493\\microsoft.servicefabric.services.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.services.remoting\\7.1.2493\\microsoft.servicefabric.services.remoting.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\5.0.0\\microsoft.netcore.app.runtime.win-x64.5.0.0.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\5.0.0\\microsoft.aspnetcore.app.runtime.win-x64.5.0.0.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\5.0.0\\microsoft.windowsdesktop.app.runtime.win-x64.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

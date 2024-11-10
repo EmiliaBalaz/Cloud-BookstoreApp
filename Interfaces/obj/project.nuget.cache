@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "UHrLZzIW2em+Exl1QUqal7IUzBRpCtFiLrw0WVu8T16vjL3inYT9rNlfjx37WqHeMKuFa/NbBeSNk558R57ACQ==",
+  "success": true,
+  "projectFilePath": "D:\\Fakultet\\MASTER\\Cloud\\Projekat\\Zadatak\\Interfaces\\Interfaces.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric\\10.1.2493\\microsoft.servicefabric.10.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.data\\7.1.2493\\microsoft.servicefabric.data.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.data.extensions\\7.1.2493\\microsoft.servicefabric.data.extensions.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.data.interfaces\\7.1.2493\\microsoft.servicefabric.data.interfaces.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.diagnostics.internal\\7.1.2493\\microsoft.servicefabric.diagnostics.internal.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.fabrictransport.internal\\7.1.2493\\microsoft.servicefabric.fabrictransport.internal.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.services\\7.1.2493\\microsoft.servicefabric.services.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.services.remoting\\7.1.2493\\microsoft.servicefabric.services.remoting.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
+  ],
+  "logs": []
+}

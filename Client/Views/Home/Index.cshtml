@@ -1,0 +1,30 @@
+﻿@model Models.Book
+
+@{ ViewData["Title"] = "Add Book"; }
+
+<h2>Add a New Book</h2>
+
+<form method="post" action="@Url.Action("AddBook", "Home")">
+    <div class="form-group">
+        <label for="title">Book Title</label>
+        <input type="text" class="form-control" id="title" name="title" value="@Model?.Title" required />
+    </div>
+
+    <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number" class="form-control" id="quantity" name="quantity" value="@Model?.Quantity" required />
+    </div>
+
+    <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" step="0.01" class="form-control" id="price" name="price" value="@Model?.Price" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Book</button>
+</form>
+
+@if (TempData["Message"] != null)
+{
+<div class="alert alert-info">
+    @TempData["Message"]
+</div>}
