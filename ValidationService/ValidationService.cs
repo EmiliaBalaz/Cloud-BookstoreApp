@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Interfaces;
+using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Microsoft.ServiceFabric.Services.Remoting.FabricTransport;
@@ -36,7 +37,7 @@ namespace ValidationService
             });
 
             var serviceUri = new Uri("fabric:/Zadatak/TransactionCoordinatorService");
-            _transactionCoordinatorService = serviceProxyFactory.CreateServiceProxy<ITransactionCoordinator>(serviceUri);
+            _transactionCoordinatorService = serviceProxyFactory.CreateServiceProxy<ITransactionCoordinator>(serviceUri, new ServicePartitionKey(0));
         }
 
         public Task<bool> ValidateBookAsync(Book book)

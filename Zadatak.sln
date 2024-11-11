@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValidationService", "Valida
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransactionCoordinatorService", "TransactionCoordinatorService\TransactionCoordinatorService.csproj", "{A4CCF666-8F50-497C-A827-707550810013}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankService", "BankService\BankService.csproj", "{2D2DAF2F-C960-4D59-93CB-2ACE767F7126}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankService", "BankService\BankService.csproj", "{2D2DAF2F-C960-4D59-93CB-2ACE767F7126}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookstoreService", "BookstoreService\BookstoreService.csproj", "{5C57400D-D855-49F8-AB43-74C0F279A501}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,14 @@ Global
 		{2D2DAF2F-C960-4D59-93CB-2ACE767F7126}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2D2DAF2F-C960-4D59-93CB-2ACE767F7126}.Release|x64.ActiveCfg = Release|Any CPU
 		{2D2DAF2F-C960-4D59-93CB-2ACE767F7126}.Release|x64.Build.0 = Release|Any CPU
+		{5C57400D-D855-49F8-AB43-74C0F279A501}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C57400D-D855-49F8-AB43-74C0F279A501}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C57400D-D855-49F8-AB43-74C0F279A501}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5C57400D-D855-49F8-AB43-74C0F279A501}.Debug|x64.Build.0 = Debug|Any CPU
+		{5C57400D-D855-49F8-AB43-74C0F279A501}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C57400D-D855-49F8-AB43-74C0F279A501}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C57400D-D855-49F8-AB43-74C0F279A501}.Release|x64.ActiveCfg = Release|Any CPU
+		{5C57400D-D855-49F8-AB43-74C0F279A501}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

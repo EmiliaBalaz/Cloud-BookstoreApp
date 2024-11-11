@@ -1,0 +1,13 @@
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Interfaces\bin\Debug\netcoreapp3.1\Interfaces.deps.json
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Interfaces\bin\Debug\netcoreapp3.1\Interfaces.dll
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Interfaces\bin\Debug\netcoreapp3.1\Interfaces.pdb
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Interfaces\bin\Debug\netcoreapp3.1\Models.dll
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Interfaces\bin\Debug\netcoreapp3.1\Models.pdb
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Interfaces\obj\Debug\netcoreapp3.1\Interfaces.csproj.AssemblyReference.cache
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Interfaces\obj\Debug\netcoreapp3.1\Interfaces.GeneratedMSBuildEditorConfig.editorconfig
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Interfaces\obj\Debug\netcoreapp3.1\Interfaces.AssemblyInfoInputs.cache
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Interfaces\obj\Debug\netcoreapp3.1\Interfaces.AssemblyInfo.cs
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Interfaces\obj\Debug\netcoreapp3.1\Interfaces.csproj.CoreCompileInputs.cache
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Interfaces\obj\Debug\netcoreapp3.1\Interfaces.csproj.CopyComplete
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Interfaces\obj\Debug\netcoreapp3.1\Interfaces.dll
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Interfaces\obj\Debug\netcoreapp3.1\Interfaces.pdb
