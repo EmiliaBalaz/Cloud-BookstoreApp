@@ -76,28 +76,28 @@ namespace TransactionCoordinatorService
 
             try
             {
-                await _bookstoreService.EnlistPurchase(transactionId, bookID, (uint)quantity); // Reserve the quantity of books
-                await _bankService.EnlistMoneyTransfer(transactionId, clientID, amount); // Reserve funds from the client
+                await _bookstoreService.EnlistPurchase(transactionId, bookID, (uint)quantity); 
+                await _bankService.EnlistMoneyTransfer(transactionId, clientID, amount); 
 
-                bool isPreparedBookstore = await _bookstoreService.Prepare(transactionId); // Prepare the bookstore for the transaction
-                bool isPreparedBank = await _bankService.Prepare(transactionId); // Prepare the bank for the transaction
+                bool isPreparedBookstore = await _bookstoreService.Prepare(transactionId); 
+                bool isPreparedBank = await _bankService.Prepare(transactionId); 
 
-                if (isPreparedBookstore && isPreparedBank) // If both preparations are successful
+                if (isPreparedBookstore && isPreparedBank) 
                 {
-                    await _bookstoreService.Commit(transactionId); // Commit the transaction in the bookstore
-                    await _bankService.Commit(transactionId); // Commit the transaction in the bank
+                    await _bookstoreService.Commit(transactionId); 
+                    await _bankService.Commit(transactionId); 
                 }
                 else
                 {
-                    await _bookstoreService.Rollback(transactionId); // Roll back the bookstore transaction
-                    await _bankService.Rollback(transactionId); // Roll back the bank transaction
+                    await _bookstoreService.Rollback(transactionId); 
+                    await _bankService.Rollback(transactionId);
                 }
             }
             catch (Exception ex)
             {
-                await _bookstoreService.Rollback(transactionId); // Ensure rollback in case of an exception
-                await _bankService.Rollback(transactionId); // Ensure rollback in the bank
-                throw new Exception(ex.Message); // Rethrow the exception with the original message
+                await _bookstoreService.Rollback(transactionId); 
+                await _bankService.Rollback(transactionId);
+                throw new Exception(ex.Message); 
             }
         }
 
