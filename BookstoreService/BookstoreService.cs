@@ -28,7 +28,7 @@ namespace BookstoreService
             throw new NotImplementedException();
         }
 
-        public Task EnlistPurchase(string bookID, uint count)
+        public Task EnlistPurchase(Guid transactionId, string bookID, uint count)
         {
             throw new NotImplementedException();
         }

@@ -56,6 +56,8 @@ namespace TransactionCoordinatorService
 
         public async Task StartTransaction(string title, int quantity, string client)
         {
+            Guid transactionId = Guid.NewGuid(); // Generate a unique transaction ID
+
             var bookID = await GetBookIdByTitle(title);
             if (string.IsNullOrEmpty(bookID))
             {
@@ -74,28 +76,28 @@ namespace TransactionCoordinatorService
 
             try
             {
-                await _bookstoreService.EnlistPurchase(bookID, (uint)quantity); //rezervise kolicinu knjiga za kupovinu, da se knjige ne prodaju drugima
-                await _bankService.EnlistMoneyTransfer(clientID, amount); //rezervacija resursa
+                await _bookstoreService.EnlistPurchase(transactionId, bookID, (uint)quantity); // Reserve the quantity of books
+                await _bankService.EnlistMoneyTransfer(transactionId, clientID, amount); // Reserve funds from the client
 
-                bool isPreparedBookstore = await _bookstoreService.Prepare(); //priprema se knjizara za transakciju
-                bool isPreparedBank = await _bankService.Prepare();  //priprema se banka za transakciju
+                bool isPreparedBookstore = await _bookstoreService.Prepare(transactionId); // Prepare the bookstore for the transaction
+                bool isPreparedBank = await _bankService.Prepare(transactionId); // Prepare the bank for the transaction
 
-                if (isPreparedBookstore && isPreparedBank)  //ako su obe pripreme uspesne 
+                if (isPreparedBookstore && isPreparedBank) // If both preparations are successful
                 {
-                    await _bookstoreService.Commit();   //potvrda transakcije, knjiga se prodaje
-                    await _bankService.Commit();      //potvrda za banku, novac se povlaci sa racuna klijenta
+                    await _bookstoreService.Commit(transactionId); // Commit the transaction in the bookstore
+                    await _bankService.Commit(transactionId); // Commit the transaction in the bank
                 }
                 else
                 {
-                    await _bookstoreService.Rollback();    //u suprotnom, knjiga ce se vratititi u stanje dostupnosti
-                    await _bankService.Rollback();      //vracaju se sredstva na klijentov racun
+                    await _bookstoreService.Rollback(transactionId); // Roll back the bookstore transaction
+                    await _bankService.Rollback(transactionId); // Roll back the bank transaction
                 }
             }
             catch (Exception ex)
             {
-                await _bookstoreService.Rollback();
-                await _bankService.Rollback();
-                throw new Exception(ex.Message);
+                await _bookstoreService.Rollback(transactionId); // Ensure rollback in case of an exception
+                await _bankService.Rollback(transactionId); // Ensure rollback in the bank
+                throw new Exception(ex.Message); // Rethrow the exception with the original message
             }
         }
 
