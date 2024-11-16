@@ -1,6 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <StartupServices xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
+    <Parameter Name="Stateful1_PartitionCount" Value="1" />
+    <Parameter Name="Stateful1_MinReplicaSetSize" Value="1" />
+    <Parameter Name="Stateful1_TargetReplicaSetSize" Value="1" />
+    <Parameter Name="Stateless1_InstanceCount" Value="1" />
+    <Parameter Name="BookstoreService_PartitionCount" Value="1" />
+    <Parameter Name="BookstoreService_MinReplicaSetSize" Value="1" />
+    <Parameter Name="BookstoreService_TargetReplicaSetSize" Value="1" />
+    <Parameter Name="BookstoreService_PartitionCount" Value="1" />
+    <Parameter Name="BookstoreService_MinReplicaSetSize" Value="1" />
+    <Parameter Name="BookstoreService_TargetReplicaSetSize" Value="1" />
     <Parameter Name="BookstoreService_PartitionCount" Value="1" />
     <Parameter Name="BookstoreService_MinReplicaSetSize" Value="1" />
     <Parameter Name="BookstoreService_TargetReplicaSetSize" Value="1" />

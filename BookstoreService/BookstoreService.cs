@@ -4,20 +4,76 @@ using System.Fabric;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Interfaces;
 using Microsoft.ServiceFabric.Data.Collections;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Models;
 
 namespace BookstoreService
 {
     /// <summary>
     /// An instance of this class is created for each service replica by the Service Fabric runtime.
     /// </summary>
-    internal sealed class BookstoreService : StatefulService
+    internal sealed class BookstoreService : StatefulService, IBookstore
     {
+        private IReliableDictionary<string, Book>? _books;
+        private IReliableDictionary<Guid, ReservedBook>? _reservedBooks;
         public BookstoreService(StatefulServiceContext context)
             : base(context)
         { }
+
+        public Task Commit(Guid transactionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task EnlistPurchase(string bookID, uint count)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<double> GetItemPrice(string bookID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Dictionary<string, Book>> ListAvailableItems()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> Prepare(Guid transactionId)
+        {
+            _books = await StateManager.GetOrAddAsync<IReliableDictionary<string, Book>>("books");
+            _reservedBooks = await StateManager.GetOrAddAsync<IReliableDictionary<Guid, ReservedBook>>("reserved_books");
+
+            using (var tx = StateManager.CreateTransaction()) //kreira se transakcija
+            {
+                var reservedBookResult = await _reservedBooks.TryGetValueAsync(tx, transactionId);  //prvo proverimo da li postoji rezervisana knjiga sa tim id-jem
+                if (!reservedBookResult.HasValue)  //ako ne postoji, vracamo false i nastavljamo
+                {
+                    return false;
+                }
+
+                ReservedBook reservedBook = reservedBookResult.Value;
+
+                var bookResult = await _books.TryGetValueAsync(tx, reservedBook.BookId);  //proverimo da li u Books postoji ova knjiga
+                if (!bookResult.HasValue)
+                {
+                    return false;
+                }
+
+                Book book = bookResult.Value;
+
+                return reservedBook.Quantity <= book.Quantity; // Proveramo da li je rezervisana kolièina dostupna
+            }
+        }
+
+        public Task Rollback(Guid transactionId)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Optional override to create listeners (e.g., HTTP, Service Remoting, WCF, etc.) for this service replica to handle client or user requests.

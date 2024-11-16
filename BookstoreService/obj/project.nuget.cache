@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "peYwJ0GcH9bcK5DN5MkvEd9W5r7noZ2+uS6zoJJMmSxZEs8LX02vzPsgMGu+CqaKofNN8r2CBrJd2S2YShYb8w==",
+  "dgSpecHash": "u+PPJ/mdzzws4nprrwJGRvsB/AhJTXcj4Mw1yhctxXgVRWhy/EJhU/Dp2uEDxGM0i4rx8dd/pZWZOyMaZpNZNQ==",
   "success": true,
   "projectFilePath": "D:\\Fakultet\\MASTER\\Cloud\\Projekat\\Zadatak\\BookstoreService\\BookstoreService.csproj",
   "expectedPackageFiles": [
@@ -9,7 +9,9 @@
     "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.data.extensions\\7.1.2493\\microsoft.servicefabric.data.extensions.7.1.2493.nupkg.sha512",
     "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.data.interfaces\\7.1.2493\\microsoft.servicefabric.data.interfaces.7.1.2493.nupkg.sha512",
     "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.diagnostics.internal\\7.1.2493\\microsoft.servicefabric.diagnostics.internal.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.fabrictransport.internal\\7.1.2493\\microsoft.servicefabric.fabrictransport.internal.7.1.2493.nupkg.sha512",
     "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.services\\7.1.2493\\microsoft.servicefabric.services.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.services.remoting\\7.1.2493\\microsoft.servicefabric.services.remoting.7.1.2493.nupkg.sha512",
     "C:\\Users\\Emily\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
     "C:\\Users\\Emily\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\5.0.0\\microsoft.netcore.app.runtime.win-x64.5.0.0.nupkg.sha512",
     "C:\\Users\\Emily\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\5.0.0\\microsoft.aspnetcore.app.runtime.win-x64.5.0.0.nupkg.sha512",
