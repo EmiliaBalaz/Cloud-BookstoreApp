@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "6zc2ALZC9a2oszFK2KyFvgQAI6poOBo/w+l23omWcxbhfl5DUqr7obR/5Hzj3T7OQn0NeWZa99axBT0yBun7JA==",
+  "dgSpecHash": "Km17d1B18IchELxtPPXLEa4Fn6j3YA2M9KsrkBKF1I7T77d4nu8knMG0JEKnXTERlX+O9VroT2WVw7dccLtWyA==",
   "success": true,
   "projectFilePath": "D:\\Fakultet\\MASTER\\Cloud\\Projekat\\Zadatak\\BankService\\BankService.csproj",
   "expectedPackageFiles": [
@@ -9,7 +9,9 @@
     "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.data.extensions\\7.1.2493\\microsoft.servicefabric.data.extensions.7.1.2493.nupkg.sha512",
     "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.data.interfaces\\7.1.2493\\microsoft.servicefabric.data.interfaces.7.1.2493.nupkg.sha512",
     "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.diagnostics.internal\\7.1.2493\\microsoft.servicefabric.diagnostics.internal.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.fabrictransport.internal\\7.1.2493\\microsoft.servicefabric.fabrictransport.internal.7.1.2493.nupkg.sha512",
     "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.services\\7.1.2493\\microsoft.servicefabric.services.7.1.2493.nupkg.sha512",
+    "C:\\Users\\Emily\\.nuget\\packages\\microsoft.servicefabric.services.remoting\\7.1.2493\\microsoft.servicefabric.services.remoting.7.1.2493.nupkg.sha512",
     "C:\\Users\\Emily\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
     "C:\\Users\\Emily\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\5.0.0\\microsoft.netcore.app.runtime.win-x64.5.0.0.nupkg.sha512",
     "C:\\Users\\Emily\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\5.0.0\\microsoft.aspnetcore.app.runtime.win-x64.5.0.0.nupkg.sha512",

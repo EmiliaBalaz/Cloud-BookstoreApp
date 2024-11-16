@@ -12,17 +12,6 @@
     <ConfigOverrides />
   </ServiceManifestImport>
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="BookstoreServicePkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
-    <EnvironmentOverrides CodePackageRef="code">
-      <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="[BookstoreService_ASPNETCORE_ENVIRONMENT]" />
-    </EnvironmentOverrides>
-  </ServiceManifestImport>
-  <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="BookstoreServicePkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
-  </ServiceManifestImport>
-  <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="BankServicePkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
   </ServiceManifestImport>

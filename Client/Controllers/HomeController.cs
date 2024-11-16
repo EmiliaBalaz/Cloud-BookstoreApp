@@ -43,10 +43,10 @@ namespace Client.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBook(string title, int quantity, int price)
+        public async Task<IActionResult> AddBook(string title, int quantity)
         {
-            var book = new Book { Title = title, Quantity = quantity, Price = price };
-            var isValid = await _validationService.ValidateBookAsync(book);
+            //var book = new Book { Title = title, Quantity = quantity, Price = price };
+            var isValid = await _validationService.ValidateBookAsync(title, quantity);
 
             if (isValid)
             {

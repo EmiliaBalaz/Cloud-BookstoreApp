@@ -4,20 +4,47 @@ using System.Fabric;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Interfaces;
 using Microsoft.ServiceFabric.Data.Collections;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Models;
 
 namespace BankService
 {
     /// <summary>
     /// An instance of this class is created for each service replica by the Service Fabric runtime.
     /// </summary>
-    internal sealed class BankService : StatefulService
+    internal sealed class BankService : StatefulService, IBank
     {
         public BankService(StatefulServiceContext context)
             : base(context)
         { }
+
+        public Task Commit(Guid transactionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task EnlistMoneyTransfer(Guid transactionId, string userID, double amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Dictionary<string, Client>> ListClients()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Prepare(Guid transactionId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Rollback(Guid transactionId)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Optional override to create listeners (e.g., HTTP, Service Remoting, WCF, etc.) for this service replica to handle client or user requests.

@@ -40,13 +40,14 @@ namespace ValidationService
             _transactionCoordinatorService = serviceProxyFactory.CreateServiceProxy<ITransactionCoordinator>(serviceUri, new ServicePartitionKey(0));
         }
 
-        public Task<bool> ValidateBookAsync(Book book)
+        public async Task<bool> ValidateBookAsync(string title, int quantity)
         {
-            if(!string.IsNullOrEmpty(book.Title) && book.Quantity > 0 && book.Price > 0)
+            if(!string.IsNullOrEmpty(title) && quantity > 0)
             {
-                return Task.FromResult(true);
+                await _transactionCoordinatorService.StartTransaction(title, quantity);
+                return true;
             }
-            return Task.FromResult(false);
+            return false;
         }
 
         /// <summary>

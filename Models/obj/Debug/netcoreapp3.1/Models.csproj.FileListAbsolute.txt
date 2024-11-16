@@ -1,10 +1,10 @@
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Models\bin\Debug\netcoreapp3.1\Models.deps.json
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Models\bin\Debug\netcoreapp3.1\Models.dll
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Models\bin\Debug\netcoreapp3.1\Models.pdb
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Models\obj\Debug\netcoreapp3.1\Models.csproj.AssemblyReference.cache
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Models\obj\Debug\netcoreapp3.1\Models.GeneratedMSBuildEditorConfig.editorconfig
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfoInputs.cache
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfo.cs
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Models\obj\Debug\netcoreapp3.1\Models.csproj.CoreCompileInputs.cache
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Models\obj\Debug\netcoreapp3.1\Models.dll
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Models\obj\Debug\netcoreapp3.1\Models.pdb
-D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\Models\obj\Debug\netcoreapp3.1\Models.csproj.AssemblyReference.cache

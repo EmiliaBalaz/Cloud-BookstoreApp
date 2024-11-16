@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransactionCoordinatorServi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankService", "BankService\BankService.csproj", "{2D2DAF2F-C960-4D59-93CB-2ACE767F7126}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookstoreService", "BookstoreService\BookstoreService.csproj", "{7DFC783A-387B-40A9-9208-2F9BAAB8D46B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookstoreService", "BookstoreService\BookstoreService.csproj", "{7DFC783A-387B-40A9-9208-2F9BAAB8D46B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

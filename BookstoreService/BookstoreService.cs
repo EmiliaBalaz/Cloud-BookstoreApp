@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Fabric;
 using System.Linq;
 using System.Threading;
@@ -7,6 +8,8 @@ using System.Threading.Tasks;
 using Interfaces;
 using Microsoft.ServiceFabric.Data.Collections;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using Microsoft.ServiceFabric.Services.Remoting.FabricTransport.Runtime;
+using Microsoft.ServiceFabric.Services.Remoting.V2.FabricTransport.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Models;
 
@@ -23,24 +26,72 @@ namespace BookstoreService
             : base(context)
         { }
 
-        public Task Commit(Guid transactionId)
+        public async Task Commit(Guid transactionId)
         {
-            throw new NotImplementedException();
+            _books = await StateManager.GetOrAddAsync<IReliableDictionary<string, Book>>("books");
+            _reservedBooks = await StateManager.GetOrAddAsync<IReliableDictionary<Guid, ReservedBook>>("reserved_books");
+
+            using var tx = StateManager.CreateTransaction();
+
+            var reservedBookResult = await _reservedBooks.TryGetValueAsync(tx, transactionId);
+            if (!reservedBookResult.HasValue)
+            {
+                return; 
+            }
+
+            var reservedBook = reservedBookResult.Value;
+
+            var bookResult = await _books.TryGetValueAsync(tx, reservedBook.BookId);
+            if (!bookResult.HasValue)
+            {
+                return; 
+            }
+
+            var book = bookResult.Value;
+
+            book.Quantity -= (int)reservedBook.Quantity;
+            await _books.SetAsync(tx, reservedBook.BookId, book);
+            await _reservedBooks.TryRemoveAsync(tx, transactionId);
+            await tx.CommitAsync();
         }
 
-        public Task EnlistPurchase(Guid transactionId, string bookID, uint count)
+        public async Task EnlistPurchase(Guid transactionId, string bookID, uint count)
         {
-            throw new NotImplementedException();
+            _reservedBooks = await StateManager.GetOrAddAsync<IReliableDictionary<Guid, ReservedBook>>("reserved_books");
+
+            using var tx = StateManager.CreateTransaction();
+
+            await _reservedBooks.SetAsync(tx, transactionId, new ReservedBook() { Quantity = count, BookId = bookID });
+
+            await tx.CommitAsync();
         }
 
-        public Task<double> GetItemPrice(string bookID)
+        public async Task<double> GetItemPrice(string bookID)
         {
-            throw new NotImplementedException();
+            return 500.00;
         }
 
-        public Task<Dictionary<string, Book>> ListAvailableItems()
+        public async Task<Dictionary<string, Book>> ListAvailableItems()
         {
-            throw new NotImplementedException();
+            // Dohvatimo stateManager
+            var stateManager = this.StateManager;
+            var availableBooks = new Dictionary<string, Book>();
+            var books = await stateManager.GetOrAddAsync<IReliableDictionary<string, Book>>("books");
+
+            using (var tx = stateManager.CreateTransaction())
+            {
+                var enumerator = (await books.CreateEnumerableAsync(tx)).GetAsyncEnumerator();
+
+                while (await enumerator.MoveNextAsync(CancellationToken.None))
+                {
+                    if (enumerator.Current.Value.Quantity > 0)
+                    {
+                        availableBooks.Add(enumerator.Current.Key, enumerator.Current.Value);
+                    }
+                }
+            }
+
+            return availableBooks;
         }
 
         public async Task<bool> Prepare(Guid transactionId)
@@ -70,9 +121,22 @@ namespace BookstoreService
             }
         }
 
-        public Task Rollback(Guid transactionId)
+        public async Task Rollback(Guid transactionId)
         {
-            throw new NotImplementedException();
+            _reservedBooks = await StateManager.GetOrAddAsync<IReliableDictionary<Guid, ReservedBook>>("reserved_books");
+
+            using (var tx = StateManager.CreateTransaction())
+            {
+                var removed = await _reservedBooks.TryRemoveAsync(tx, transactionId);
+                if (removed.HasValue)
+                {
+                    await tx.CommitAsync();
+                }
+                else
+                {
+                    await tx.CommitAsync();
+                }
+            }
         }
 
         /// <summary>
@@ -84,7 +148,17 @@ namespace BookstoreService
         /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
-            return new ServiceReplicaListener[0];
+            return new List<ServiceReplicaListener>
+            {
+                new ServiceReplicaListener(serviceContext =>
+                    new FabricTransportServiceRemotingListener(
+                        serviceContext,
+                        this, new FabricTransportRemotingListenerSettings
+                            {
+                                ExceptionSerializationTechnique = FabricTransportRemotingListenerSettings.ExceptionSerialization.Default,
+                            })
+                    )
+            };
         }
 
         /// <summary>
@@ -97,28 +171,74 @@ namespace BookstoreService
             // TODO: Replace the following sample code with your own logic 
             //       or remove this RunAsync override if it's not needed in your service.
 
-            var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
+            //var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
 
-            while (true)
+            //while (true)
+            //{
+            //    cancellationToken.ThrowIfCancellationRequested();
+
+            //    using (var tx = this.StateManager.CreateTransaction())
+            //    {
+            //        var result = await myDictionary.TryGetValueAsync(tx, "Counter");
+
+            //        ServiceEventSource.Current.ServiceMessage(this.Context, "Current Counter Value: {0}",
+            //            result.HasValue ? result.Value.ToString() : "Value does not exist.");
+
+            //        await myDictionary.AddOrUpdateAsync(tx, "Counter", 0, (key, value) => ++value);
+
+            //        // If an exception is thrown before calling CommitAsync, the transaction aborts, all changes are 
+            //        // discarded, and nothing is saved to the secondary replicas.
+            //        await tx.CommitAsync();
+            //    }
+
+            //    await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+
+            // Simulacija inicijalizacije kolekcija u StateManager
+            //_books = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, Book>>("books");
+            //_reservedBooks = await this.StateManager.GetOrAddAsync<IReliableDictionary<Guid, ReservedBook>>("reserved_books");
+
+            //// Kreirajte transakciju za pripremu podataka
+            //using (var tx = this.StateManager.CreateTransaction())
+            //{
+            //    // Dodajte knjigu u _books
+            //    await _books.AddOrUpdateAsync(tx, "book1", new Book { Title = "book1", Quantity = 10, Price = 10 }, (key, value) => value);
+
+            //    // Dodajte rezervaciju u _reservedBooks
+            //    var reservedBook = new ReservedBook { BookId = "book1", Quantity = 5 };
+            //    Guid transactionId = Guid.NewGuid();
+            //    await _reservedBooks.AddOrUpdateAsync(tx, transactionId, reservedBook, (key, value) => value);
+
+            //    // Commit-ujte promene
+            //    await tx.CommitAsync();
+            //}
+
+            //// Testirajte Prepare metodu
+            //bool result = await Prepare(Guid.NewGuid());  // Pozivanje metode Prepare sa validnim transactionId
+            //ServiceEventSource.Current.ServiceMessage(this.Context, "Prepare result: {0}", result ? "Success" : "Failure");
+
+            //// Onda možete dodati još testova sa razlièitim uslovima
+            //cancellationToken.ThrowIfCancellationRequested();
+            //await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+
+            _books = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, Book>>("books");
+            _reservedBooks = await this.StateManager.GetOrAddAsync<IReliableDictionary<Guid, ReservedBook>>("reserved_books");
+
+            using var tx = this.StateManager.CreateTransaction();
+
+            var enumerator = (await _books.CreateEnumerableAsync(tx)).GetAsyncEnumerator();
+
+            if (!await enumerator.MoveNextAsync(cancellationToken))
             {
-                cancellationToken.ThrowIfCancellationRequested();
-
-                using (var tx = this.StateManager.CreateTransaction())
-                {
-                    var result = await myDictionary.TryGetValueAsync(tx, "Counter");
-
-                    ServiceEventSource.Current.ServiceMessage(this.Context, "Current Counter Value: {0}",
-                        result.HasValue ? result.Value.ToString() : "Value does not exist.");
-
-                    await myDictionary.AddOrUpdateAsync(tx, "Counter", 0, (key, value) => ++value);
-
-                    // If an exception is thrown before calling CommitAsync, the transaction aborts, all changes are 
-                    // discarded, and nothing is saved to the secondary replicas.
-                    await tx.CommitAsync();
-                }
-
-                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+                Debug.WriteLine("---Uspesno inicijalizovani podaci!---");
+                await _books.AddAsync(tx, "book1", new Book { Title = "Book 1", Quantity = 5, Price = 100 });
+                await _books.AddAsync(tx, "book2", new Book { Title = "Book 2", Quantity = 1, Price = 50 });
+                await _books.AddAsync(tx, "book3", new Book { Title = "Book 3", Quantity = 0, Price = 200 });
             }
+
+            await _reservedBooks.ClearAsync();
+
+            await tx.CommitAsync();
         }
     }
 }
+

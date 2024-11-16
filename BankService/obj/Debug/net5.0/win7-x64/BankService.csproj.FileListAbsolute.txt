@@ -17,7 +17,10 @@ D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Microsoft.ServiceFabric.ReliableCollection.Interop.dll
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Microsoft.ServiceFabric.Data.Interfaces.dll
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Microsoft.ServiceFabric.Diagnostics.dll
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Microsoft.ServiceFabric.FabricTransport.V2.dll
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Microsoft.ServiceFabric.FabricTransport.dll
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Microsoft.ServiceFabric.Services.dll
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Microsoft.ServiceFabric.Services.Remoting.dll
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Microsoft.CSharp.dll
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Microsoft.VisualBasic.Core.dll
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Microsoft.VisualBasic.dll
@@ -237,6 +240,11 @@ D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\mscordbi.dll
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\mscorrc.dll
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\ucrtbase.dll
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Interfaces.dll
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Models.dll
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Interfaces.pdb
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\bin\Debug\net5.0\win7-x64\Models.pdb
+D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\obj\Debug\net5.0\win7-x64\BankService.csproj.AssemblyReference.cache
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\obj\Debug\net5.0\win7-x64\BankService.GeneratedMSBuildEditorConfig.editorconfig
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\obj\Debug\net5.0\win7-x64\BankService.AssemblyInfoInputs.cache
 D:\Fakultet\MASTER\Cloud\Projekat\Zadatak\BankService\obj\Debug\net5.0\win7-x64\BankService.AssemblyInfo.cs

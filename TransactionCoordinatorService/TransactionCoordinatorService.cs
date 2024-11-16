@@ -23,7 +23,7 @@ namespace TransactionCoordinatorService
     internal sealed class TransactionCoordinatorService : StatefulService, ITransactionCoordinator
     {
         private readonly IBookstore _bookstoreService;
-        private readonly IBank _bankService;
+        //private readonly IBank _bankService;
         public TransactionCoordinatorService(StatefulServiceContext context)
             : base(context)
         {
@@ -40,21 +40,21 @@ namespace TransactionCoordinatorService
             var serviceUriBookStore = new Uri("fabric:/Zadatak/BookstoreService");
             _bookstoreService = serviceProxyFactoryBookstore.CreateServiceProxy<IBookstore>(serviceUriBookStore, new ServicePartitionKey(0));
 
-            var serviceProxyFactoryBank = new ServiceProxyFactory((callbackClient) =>
-            {
-                return new FabricTransportServiceRemotingClientFactory(
-                    new FabricTransportRemotingSettings
-                    {
-                        ExceptionDeserializationTechnique = FabricTransportRemotingSettings.ExceptionDeserialization.Default
-                    },
-                    callbackClient);
-            });
+            //var serviceProxyFactoryBank = new ServiceProxyFactory((callbackClient) =>
+            //{
+            //    return new FabricTransportServiceRemotingClientFactory(
+            //        new FabricTransportRemotingSettings
+            //        {
+            //            ExceptionDeserializationTechnique = FabricTransportRemotingSettings.ExceptionDeserialization.Default
+            //        },
+            //        callbackClient);
+            //});
 
-            var serviceUriBank = new Uri("fabric:/Zadatak/BankService");
-            _bankService = serviceProxyFactoryBank.CreateServiceProxy<IBank>(serviceUriBank, new ServicePartitionKey(0));
+            //var serviceUriBank = new Uri("fabric:/Zadatak/BankService");
+            //_bankService = serviceProxyFactoryBank.CreateServiceProxy<IBank>(serviceUriBank, new ServicePartitionKey(0));
         }
 
-        public async Task StartTransaction(string title, int quantity, string client)
+        public async Task StartTransaction(string title, int quantity)
         {
             Guid transactionId = Guid.NewGuid(); // Generate a unique transaction ID
 
@@ -66,37 +66,37 @@ namespace TransactionCoordinatorService
 
             double price = await _bookstoreService.GetItemPrice(bookID);
 
-            var clientID = await GetClientIdByName(client);
-            if (string.IsNullOrEmpty(clientID))
-            {
-                throw new InvalidOperationException("Client not found.");
-            }
+            //var clientID = await GetClientIdByName(client);
+            //if (string.IsNullOrEmpty(clientID))
+            //{
+            //    throw new InvalidOperationException("Client not found.");
+            //}
 
             double amount = quantity * price;
 
             try
             {
                 await _bookstoreService.EnlistPurchase(transactionId, bookID, (uint)quantity); 
-                await _bankService.EnlistMoneyTransfer(transactionId, clientID, amount); 
+                //await _bankService.EnlistMoneyTransfer(transactionId, clientID, amount); 
 
                 bool isPreparedBookstore = await _bookstoreService.Prepare(transactionId); 
-                bool isPreparedBank = await _bankService.Prepare(transactionId); 
+               // bool isPreparedBank = await _bankService.Prepare(transactionId); 
 
-                if (isPreparedBookstore && isPreparedBank) 
+                if (isPreparedBookstore) //&& ispreparedBank
                 {
                     await _bookstoreService.Commit(transactionId); 
-                    await _bankService.Commit(transactionId); 
+                    //await _bankService.Commit(transactionId); 
                 }
                 else
                 {
                     await _bookstoreService.Rollback(transactionId); 
-                    await _bankService.Rollback(transactionId);
+                    //await _bankService.Rollback(transactionId);
                 }
             }
             catch (Exception ex)
             {
                 await _bookstoreService.Rollback(transactionId); 
-                await _bankService.Rollback(transactionId);
+                //await _bankService.Rollback(transactionId);
                 throw new Exception(ex.Message); 
             }
         }
@@ -110,14 +110,14 @@ namespace TransactionCoordinatorService
             return book.Key != null ? book.Key : null;
         }
 
-        private async Task<string> GetClientIdByName(string clientName)
-        {
-            var clients = await _bankService.ListClients();
-            var client = clients.FirstOrDefault(c =>
-                c.Value.ClientName.Equals(clientName, StringComparison.OrdinalIgnoreCase));
+        //private async Task<string> GetClientIdByName(string clientName)
+        //{
+        //    var clients = await _bankService.ListClients();
+        //    var client = clients.FirstOrDefault(c =>
+        //        c.Value.ClientName.Equals(clientName, StringComparison.OrdinalIgnoreCase));
 
-            return client.Key != null ? client.Key : null;
-        }
+        //    return client.Key != null ? client.Key : null;
+        //}
 
         /// <summary>
         /// Optional override to create listeners (e.g., HTTP, Service Remoting, WCF, etc.) for this service replica to handle client or user requests.
