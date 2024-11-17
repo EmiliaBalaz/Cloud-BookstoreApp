@@ -8,6 +8,6 @@ namespace Interfaces
 {
     public interface ITransactionCoordinator : IService
     {
-        Task StartTransaction(string title, int quantity);
+        Task StartTransaction(string title, int quantity, string client);
     }
 }

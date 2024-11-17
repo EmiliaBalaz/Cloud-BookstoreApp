@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Fabric;
 using System.Linq;
 using System.Threading;
@@ -7,6 +8,8 @@ using System.Threading.Tasks;
 using Interfaces;
 using Microsoft.ServiceFabric.Data.Collections;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using Microsoft.ServiceFabric.Services.Remoting.FabricTransport.Runtime;
+using Microsoft.ServiceFabric.Services.Remoting.V2.FabricTransport.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Models;
 
@@ -17,6 +20,7 @@ namespace BankService
     /// </summary>
     internal sealed class BankService : StatefulService, IBank
     {
+        private IReliableDictionary<string, Client>? _clients;
         public BankService(StatefulServiceContext context)
             : base(context)
         { }
@@ -31,9 +35,22 @@ namespace BankService
             throw new NotImplementedException();
         }
 
-        public Task<Dictionary<string, Client>> ListClients()
+        public async Task<Dictionary<string, Client>> ListClients()
         {
-            throw new NotImplementedException();
+            var clients = new Dictionary<string, Client>();
+            var clientsDictionary = await StateManager.GetOrAddAsync<IReliableDictionary<string, Client>>("clients");
+
+            using (var tx = StateManager.CreateTransaction())
+            {
+                var enumerator = (await clientsDictionary.CreateEnumerableAsync(tx)).GetAsyncEnumerator();
+
+                while (await enumerator.MoveNextAsync(CancellationToken.None))
+                {
+                    clients.Add(enumerator.Current.Key, enumerator.Current.Value);
+                }
+            }
+
+            return clients;
         }
 
         public Task<bool> Prepare(Guid transactionId)
@@ -55,7 +72,17 @@ namespace BankService
         /// <returns>A collection of listeners.</returns>
         protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
         {
-            return new ServiceReplicaListener[0];
+            return new List<ServiceReplicaListener>
+            {
+                new ServiceReplicaListener(serviceContext =>
+                    new FabricTransportServiceRemotingListener(
+                        serviceContext,
+                        this, new FabricTransportRemotingListenerSettings
+                            {
+                                ExceptionSerializationTechnique = FabricTransportRemotingListenerSettings.ExceptionSerialization.Default,
+                            })
+                    )
+            };
         }
 
         /// <summary>
@@ -68,28 +95,20 @@ namespace BankService
             // TODO: Replace the following sample code with your own logic 
             //       or remove this RunAsync override if it's not needed in your service.
 
-            var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
+            _clients = await StateManager.GetOrAddAsync<IReliableDictionary<string, Client>>("clients");
 
-            while (true)
+            using var tx = StateManager.CreateTransaction();
+
+            var enumerator = (await _clients.CreateEnumerableAsync(tx)).GetAsyncEnumerator();
+
+            if (!await enumerator.MoveNextAsync(cancellationToken))
             {
-                cancellationToken.ThrowIfCancellationRequested();
-
-                using (var tx = this.StateManager.CreateTransaction())
-                {
-                    var result = await myDictionary.TryGetValueAsync(tx, "Counter");
-
-                    ServiceEventSource.Current.ServiceMessage(this.Context, "Current Counter Value: {0}",
-                        result.HasValue ? result.Value.ToString() : "Value does not exist.");
-
-                    await myDictionary.AddOrUpdateAsync(tx, "Counter", 0, (key, value) => ++value);
-
-                    // If an exception is thrown before calling CommitAsync, the transaction aborts, all changes are 
-                    // discarded, and nothing is saved to the secondary replicas.
-                    await tx.CommitAsync();
-                }
-
-                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
+                Debug.WriteLine("---Uspesno inicijalizovani podaci!---");
+                await _clients.AddAsync(tx, "client1", new Client { ClientName = "Emilija", Balance = 20000 });
+                await _clients.AddAsync(tx, "client2", new Client { ClientName = "Dijana", Balance = 1000 });
             }
+
+            await tx.CommitAsync();
         }
     }
 }
