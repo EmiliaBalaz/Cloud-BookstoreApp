@@ -80,9 +80,9 @@ namespace TransactionCoordinatorService
                 //await _bankService.EnlistMoneyTransfer(transactionId, clientID, amount); 
 
                 bool isPreparedBookstore = await _bookstoreService.Prepare(transactionId); 
-               // bool isPreparedBank = await _bankService.Prepare(transactionId); 
+                bool isPreparedBank = await _bankService.Prepare(transactionId); 
 
-                if (isPreparedBookstore) //&& ispreparedBank
+                if (isPreparedBookstore && isPreparedBank) 
                 {
                     await _bookstoreService.Commit(transactionId); 
                     //await _bankService.Commit(transactionId); 
@@ -90,13 +90,13 @@ namespace TransactionCoordinatorService
                 else
                 {
                     await _bookstoreService.Rollback(transactionId); 
-                    //await _bankService.Rollback(transactionId);
+                    await _bankService.Rollback(transactionId);
                 }
             }
             catch (Exception ex)
             {
                 await _bookstoreService.Rollback(transactionId); 
-                //await _bankService.Rollback(transactionId);
+                await _bankService.Rollback(transactionId);
                 throw new Exception(ex.Message); 
             }
         }

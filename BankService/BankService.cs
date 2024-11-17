@@ -21,6 +21,7 @@ namespace BankService
     internal sealed class BankService : StatefulService, IBank
     {
         private IReliableDictionary<string, Client>? _clients;
+        private IReliableDictionary<Guid, ReservedFund>? _reservedFunds;
         public BankService(StatefulServiceContext context)
             : base(context)
         { }
@@ -53,14 +54,50 @@ namespace BankService
             return clients;
         }
 
-        public Task<bool> Prepare(Guid transactionId)
+        public async Task<bool> Prepare(Guid transactionId)
         {
-            throw new NotImplementedException();
+            _clients = await StateManager.GetOrAddAsync<IReliableDictionary<string, Client>>("clients");
+            _reservedFunds = await StateManager.GetOrAddAsync<IReliableDictionary<Guid, ReservedFund>>("reserved_funds");
+
+            using (var tx = StateManager.CreateTransaction())
+            {
+                
+                var reservedFundResult = await _reservedFunds.TryGetValueAsync(tx, transactionId); //da li postoje rezervisana sredstva za dati id
+                if (!reservedFundResult.HasValue)
+                {
+                    return false;
+                }
+
+                ReservedFund reservedFund = reservedFundResult.Value;
+
+                var clientResult = await _clients.TryGetValueAsync(tx, reservedFund.ClientId); //da li klijent sa datim id-jem postoji
+                if (!clientResult.HasValue)
+                {
+                    return false;
+                }
+
+                Client client = clientResult.Value;
+
+                return reservedFund.Amount <= client.Balance; //proveri da li klijent ima dovoljno novca
+            }
         }
 
-        public Task Rollback(Guid transactionId)
+        public async Task Rollback(Guid transactionId)
         {
-            throw new NotImplementedException();
+            _reservedFunds = await StateManager.GetOrAddAsync<IReliableDictionary<Guid, ReservedFund>>("reserved_funds");
+
+            using (var tx = StateManager.CreateTransaction())
+            {
+                var removed = await _reservedFunds.TryRemoveAsync(tx, transactionId);
+                if (removed.HasValue)
+                {
+                    await tx.CommitAsync();
+                }
+                else
+                {
+                    await tx.CommitAsync();
+                }
+            }
         }
 
         /// <summary>
@@ -96,6 +133,7 @@ namespace BankService
             //       or remove this RunAsync override if it's not needed in your service.
 
             _clients = await StateManager.GetOrAddAsync<IReliableDictionary<string, Client>>("clients");
+            _reservedFunds = await StateManager.GetOrAddAsync<IReliableDictionary<Guid, ReservedFund>>("reserved_funds");
 
             using var tx = StateManager.CreateTransaction();
 
@@ -107,7 +145,7 @@ namespace BankService
                 await _clients.AddAsync(tx, "client1", new Client { ClientName = "Emilija", Balance = 20000 });
                 await _clients.AddAsync(tx, "client2", new Client { ClientName = "Dijana", Balance = 1000 });
             }
-
+            await _reservedFunds.ClearAsync();
             await tx.CommitAsync();
         }
     }

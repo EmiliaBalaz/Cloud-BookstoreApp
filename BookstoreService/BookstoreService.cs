@@ -73,7 +73,6 @@ namespace BookstoreService
 
         public async Task<Dictionary<string, Book>> ListAvailableItems()
         {
-            // Dohvatimo stateManager
             var stateManager = this.StateManager;
             var availableBooks = new Dictionary<string, Book>();
             var books = await stateManager.GetOrAddAsync<IReliableDictionary<string, Book>>("books");
