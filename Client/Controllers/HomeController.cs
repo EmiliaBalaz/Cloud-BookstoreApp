@@ -46,15 +46,23 @@ namespace Client.Controllers
         public async Task<IActionResult> AddBook(string title, int quantity, string client)
         {
             //var book = new Book { Title = title, Quantity = quantity, Price = price };
-            var isValid = await _validationService.ValidateBookAsync(title, quantity, client);
-
-            if (isValid)
+            try
             {
-                TempData["Message"] = "Book added successfully!";
+                await _validationService.ValidateBookAsync(title, quantity, client);
             }
-            else
+            catch (AggregateException ex)
             {
-                TempData["Message"] = "Invalid book data.";
+                foreach (var e in ex.InnerExceptions)
+                {
+                    if (e is ArgumentException)
+                    {
+                        ViewBag.ErrorMessage = e.Message;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Something went wrong.";
             }
 
             return RedirectToAction("Index", "Home");

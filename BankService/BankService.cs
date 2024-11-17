@@ -26,14 +26,45 @@ namespace BankService
             : base(context)
         { }
 
-        public Task Commit(Guid transactionId)
+        public async Task Commit(Guid transactionId)
         {
-            throw new NotImplementedException();
+            _clients = await StateManager.GetOrAddAsync<IReliableDictionary<string, Client>>("clients");
+            _reservedFunds = await StateManager.GetOrAddAsync<IReliableDictionary<Guid, ReservedFund>>("reserved_funds");
+
+            using var tx = StateManager.CreateTransaction();
+
+            var reservedFundResult = await _reservedFunds.TryGetValueAsync(tx, transactionId);
+            if (!reservedFundResult.HasValue)
+            {
+                return; // Prekid ako rezervisana sredstva ne postoje
+            }
+
+            var reservedFund = reservedFundResult.Value;
+
+            var clientResult = await _clients.TryGetValueAsync(tx, reservedFund.ClientId);
+            if (!clientResult.HasValue)
+            {
+                return; // Prekid ako klijent ne postoji
+            }
+
+            var client = clientResult.Value;
+
+            client.Balance -= reservedFund.Amount; //azurira novce na klijentovom racunu
+            await _clients.SetAsync(tx, reservedFund.ClientId, client);
+
+            await _reservedFunds.TryRemoveAsync(tx, transactionId); //uklanja novce
+            await tx.CommitAsync();
         }
 
-        public Task EnlistMoneyTransfer(Guid transactionId, string userID, double amount)
+        public async Task EnlistMoneyTransfer(Guid transactionId, string userID, double amount)
         {
-            throw new NotImplementedException();
+            _reservedFunds = await StateManager.GetOrAddAsync<IReliableDictionary<Guid, ReservedFund>>("reserved_funds");
+
+            using var tx = StateManager.CreateTransaction();
+
+            await _reservedFunds.SetAsync(tx, transactionId, new ReservedFund() { ClientId = userID, Amount = amount });
+
+            await tx.CommitAsync();
         }
 
         public async Task<Dictionary<string, Client>> ListClients()

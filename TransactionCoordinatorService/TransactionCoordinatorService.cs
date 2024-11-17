@@ -77,7 +77,7 @@ namespace TransactionCoordinatorService
             try
             {
                 await _bookstoreService.EnlistPurchase(transactionId, bookID, (uint)quantity); 
-                //await _bankService.EnlistMoneyTransfer(transactionId, clientID, amount); 
+                await _bankService.EnlistMoneyTransfer(transactionId, clientID, amount); 
 
                 bool isPreparedBookstore = await _bookstoreService.Prepare(transactionId); 
                 bool isPreparedBank = await _bankService.Prepare(transactionId); 
@@ -85,7 +85,7 @@ namespace TransactionCoordinatorService
                 if (isPreparedBookstore && isPreparedBank) 
                 {
                     await _bookstoreService.Commit(transactionId); 
-                    //await _bankService.Commit(transactionId); 
+                    await _bankService.Commit(transactionId); 
                 }
                 else
                 {

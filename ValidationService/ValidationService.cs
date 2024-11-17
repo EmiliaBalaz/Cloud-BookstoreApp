@@ -40,14 +40,16 @@ namespace ValidationService
             _transactionCoordinatorService = serviceProxyFactory.CreateServiceProxy<ITransactionCoordinator>(serviceUri, new ServicePartitionKey(0));
         }
 
-        public async Task<bool> ValidateBookAsync(string title, int quantity, string client)
+        public async Task ValidateBookAsync(string title, int quantity, string client)
         {
-            if(!string.IsNullOrEmpty(title) && quantity > 0 && !string.IsNullOrEmpty(client))
+            if (!string.IsNullOrEmpty(title) && quantity > 0 && !string.IsNullOrEmpty(client))
             {
                 await _transactionCoordinatorService.StartTransaction(title, quantity, client);
-                return true;
             }
-            return false;
+            else
+            {
+                throw new ArgumentException("Invalid parameters: Title cannot be null or empty, quantity must be greater than 0, and client cannot be null or empty.");
+            }
         }
 
         /// <summary>

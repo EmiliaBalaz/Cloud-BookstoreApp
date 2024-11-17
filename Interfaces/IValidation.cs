@@ -9,6 +9,6 @@ namespace Interfaces
 {
     public interface IValidation: IService
     {
-        Task<bool> ValidateBookAsync(string title, int quantity, string client);
+        Task ValidateBookAsync(string title, int quantity, string client);
     }
 }
