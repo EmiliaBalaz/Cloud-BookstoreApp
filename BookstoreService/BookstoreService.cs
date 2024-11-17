@@ -26,6 +26,8 @@ namespace BookstoreService
             : base(context)
         { }
 
+        public object ViewBag { get; private set; }
+
         public async Task Commit(Guid transactionId)
         {
             _books = await StateManager.GetOrAddAsync<IReliableDictionary<string, Book>>("books");
@@ -68,7 +70,31 @@ namespace BookstoreService
 
         public async Task<double> GetItemPrice(string bookID)
         {
-            return 500.00;
+            var stateManager = this.StateManager;
+            _books = await stateManager.GetOrAddAsync<IReliableDictionary<string, Book>>("books");
+            double bookPrice = 0;
+
+            try
+            {
+                using (var tx = stateManager.CreateTransaction())
+                {
+                    var bookResult = await _books.TryGetValueAsync(tx, bookID);
+
+                    if (!bookResult.HasValue)
+                    {
+                        throw new Exception($"Book with ID {bookID} doesn't exist!");
+                    }
+
+                    Book book = bookResult.Value;
+                    bookPrice = book.Price;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while retrieving the book price.", ex);
+            }
+
+            return bookPrice;
         }
 
         public async Task<Dictionary<string, Book>> ListAvailableItems()
